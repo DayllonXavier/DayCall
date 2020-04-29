@@ -23,18 +23,21 @@
             pos: self.pos[0] + 12, self.pos[1] + 12
             radius: 5, 5, 5, 5
 
-<ButtonMenu@Button>:
+<Button>:
     background_color: (0.2, 0.6, 0.9, 1)
     on_press: self.background_color = (0.7, 0.7, 0.7, 1)
     on_release: self.background_color = (0.2, 0.6, 0.9, 1)
     color: (1,1,1,1)
+
+<ButtonMenu@Button>:
     bold: False
     font_size: 24
-    
+
 #-----------
 
 <ScreenHome>:
     name: 'ScreenHome'
+    on_enter: root.inicio()
     BoxLayoutBackground:
         BoxLayout:
             orientation: 'horizontal'
@@ -64,11 +67,10 @@
                     text: 'More informations'
                 ButtonMenu:
                     text: 'Exit'
+                    on_release: root.confirm_exit()
             BoxLayout:
                 size_hint_x: 0.1
         
-
-
 <ScreenCall>:
     name: 'ScreenCall'
     BoxLayoutBackground:
