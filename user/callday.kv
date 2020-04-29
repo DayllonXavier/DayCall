@@ -1,0 +1,75 @@
+<ScreensController>:
+    ScreenHome:
+    ScreenCall:
+
+#styles
+
+<Label>:
+    color: (0, 0, 0, 1)
+
+<BoxLayoutBackground@BoxLayout>:
+    orientation: 'vertical'
+    padding: 15
+    canvas.before:
+        Color:
+            rgba: (0.109, 0.023, 0.231, 1)
+        Rectangle:
+            size: self.size
+            pos: self.pos
+        Color:
+            rgba: (0.875, 0.8477, 0.8242, 1)
+        RoundedRectangle:
+            size: self.size[0] - 24, self.size[1] - 24
+            pos: self.pos[0] + 12, self.pos[1] + 12
+            radius: 5, 5, 5, 5
+
+<ButtonMenu@Button>:
+    background_color: (0.2, 0.6, 0.9, 1)
+    on_press: self.background_color = (0.7, 0.7, 0.7, 1)
+    on_release: self.background_color = (0.2, 0.6, 0.9, 1)
+    color: (1,1,1,1)
+    bold: False
+    font_size: 24
+    
+#-----------
+
+<ScreenHome>:
+    name: 'ScreenHome'
+    BoxLayoutBackground:
+        BoxLayout:
+            orientation: 'horizontal'
+            Image:
+                source: './_imgs/logo.png'
+            Label:
+                color: (18/256, 53/256, 69/256, 1)
+                text: 'CallDay'
+                font_size: 60
+                bold: True
+                font_name: 'Roboto-BoldItalic'
+                halign: 'left'
+        BoxLayout:
+            orientation: 'horizontal'
+            BoxLayout:
+                size_hint_x: 0.1
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_x: 0.8
+                padding: 20
+                spacing: 15
+                ButtonMenu:
+                    text: 'Start Connection'
+                ButtonMenu:
+                    text: 'Enter a Connection'
+                ButtonMenu:
+                    text: 'More informations'
+                ButtonMenu:
+                    text: 'Exit'
+            BoxLayout:
+                size_hint_x: 0.1
+        
+
+
+<ScreenCall>:
+    name: 'ScreenCall'
+    BoxLayoutBackground:
+        
