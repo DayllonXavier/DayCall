@@ -15,7 +15,7 @@ class ScreensController(ScreenManager):
 
 class ScreenHome(Screen):
     def confirm_exit(self):
-        alert_object.construct_mensage(labels = ['You really want to leave?'], buttons = [('SIM', App.get_running_app().stop), ('NÃO', alert_object.dismiss)])
+        alert_object.construct_mensage(labels = ['You really want to leave?'], buttons = [('YES', App.get_running_app().stop), ('NO', alert_object.dismiss)])
         alert_object.ative()
 
 class ScreenCall(Screen):
