@@ -21,10 +21,10 @@ class ScreenHome(Screen):
 class ScreenCall(Screen):
     pass
 
-class CallDay(App):
+class DayCall(App):
     def build(self):
         return ScreensController()
 
 if (__name__ == '__main__'):
     alert_object = Alert()
-    CallDay().run()
+    DayCall().run()
