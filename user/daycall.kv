@@ -1,7 +1,7 @@
 <ScreensController>:
     ScreenHome:
     ScreenCall:
-
+    
 #styles
 
 <Label>:
@@ -37,14 +37,13 @@
 
 <ScreenHome>:
     name: 'ScreenHome'
-    on_enter: root.inicio()
     BoxLayoutBackground:
         BoxLayout:
             orientation: 'horizontal'
             Image:
                 source: './_imgs/logo.png'
             Label:
-                color: (18/256, 53/256, 69/256, 1)
+                color: (0.0703, 0.207, 0.2695, 1)
                 text: 'DayCall'
                 font_size: 60
                 bold: True
@@ -76,5 +75,34 @@
         
 <ScreenCall>:
     name: 'ScreenCall'
-    BoxLayoutBackground:
+    BoxLayout:
+        orientation: 'vertical'
+        canvas:
+            Color:
+                rgba: (0.109, 0.023, 0.231, 1)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        ActionBar:
+            ActionView:
+                ActionPrevious:
+                    title: "DayCall - CONNECTED"
+                    on_release: app.root.start_screen_home()
+                ActionSeparator:
+                ActionButton:
+                    text: "STOP CALL"
+        FloatLayout:
+            Image:
+                source: './_imgs/load.png'
+                allow_stretch: True
+                size: (640, 480)
+            Image:
+                source: './_imgs/load.png'
+                allow_stretch: True
+                size_hint_y: None
+                size_hint_x: None
+                size: (640/2, 480/2)
+                pos_hint: {'right': 1, 'y': 0}
+                    
+
         
