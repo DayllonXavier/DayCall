@@ -91,18 +91,18 @@
                 ActionSeparator:
                 ActionButton:
                     text: "STOP CALL"
+                    on_release: root.close_connection()
         FloatLayout:
             Image:
+                id: other_image
                 source: './_imgs/load.png'
                 allow_stretch: True
                 size: (640, 480)
             Image:
+                id: your_image
                 source: './_imgs/load.png'
                 allow_stretch: True
                 size_hint_y: None
                 size_hint_x: None
                 size: (640/2, 480/2)
                 pos_hint: {'right': 1, 'y': 0}
-                    
-
-        
