@@ -4,7 +4,7 @@ import socket
 
 class Connection(object):
     def __init__(self):
-        self.MAX_BYTES = 1024
+        self.MAX_BYTES = 1500
     
     def udp_socket_init(self):
         self.udp_socket_connected = False
@@ -13,7 +13,7 @@ class Connection(object):
         self.udp_port = self.udp_socket.getsockname()[1]
         self.udp_socket_settimeout()
     
-    def udp_socket_settimeout(self, time = 0.01):
+    def udp_socket_settimeout(self, time = 0.1):
         self.udp_socket.settimeout(time)
 
     def udp_socket_connect(self, address):

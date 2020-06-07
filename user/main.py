@@ -47,15 +47,17 @@ class ScreenHome(Screen):
 class ScreenCall(Screen):
     def on_pre_enter(self):
         self.separate = "{||}".encode('utf-8')
-        self.partition_size = 1000
+        self.partition_size = 1476
+        self.size_picture = 0
         self.connected = True
+        self.sending = False
         self.clock_atualize_images = None
         self.fps = 30
         camera_object.init_capture()
         self.your_image = None
         self.other_image = None
         connection_object.udp_socket_init()
-        connection_object.udp_socket_connect(('127.0.0.1', 1060)) #Address temp
+        connection_object.udp_socket_connect(('0.0.0.0', 1060)) #Address temp
         self.init_clock_atualize_images()
 
     def init_clock_atualize_images(self, *args):
@@ -71,10 +73,12 @@ class ScreenCall(Screen):
 
         if (self.other_image is None):
             self.other_image = self.your_image
+            self.size_picture = (len(self.your_image) // self.partition_size) + (len(self.your_image) % self.partition_size != 0)
             threading.Thread(target = self.recv_other_image).start()
 
-        #threading.Thread(target = self.send_your_image, args = (self.your_image,)).start()
-        self.send_your_image(self.your_image)
+        if (not self.sending):
+            self.sending = True
+            threading.Thread(target = self.send_your_image, args = (self.your_image,)).start()
 
         your_texture_image = Texture.create(size = size, colorfmt='bgr')
         your_texture_image.blit_buffer(self.your_image, colorfmt='bgr', bufferfmt='ubyte')
@@ -86,7 +90,7 @@ class ScreenCall(Screen):
 
     def alter_images(self, your_image, other_image):
         self.ids.your_image.texture = your_image
-        self.ids.other_image.texture =  other_image
+        self.ids.other_image.texture = other_image
 
     def close_connection(self):
         self.stop_clock_atualize_images()
@@ -95,16 +99,14 @@ class ScreenCall(Screen):
         self.manager.start_screen_home()
 
     def send_your_image(self, image, *args):
-        size = (len(image) // self.partition_size) + (len(image) % self.partition_size != 0)
-        for i in range(0, size):
+        for i in range(0, self.size_picture):
             left_border = i * self.partition_size
             right_border = min(left_border + self.partition_size, len(image))
-            data = str(left_border).encode('utf-8') + self.separate + image[left_border : right_border]
-            print("SIZE DATA: {}".format(len(data)))
+            data = str(i).encode('utf-8') + self.separate + image[left_border : right_border]
             connection_object.udp_socket_send_bytes(data = data)
-    
+        self.sending = False
+        
     def recv_other_image(self):
-        print("INIT")
         while(self.connected):
             data = connection_object.udp_socket_recv_bytes()
             if (data is not None):
@@ -113,7 +115,7 @@ class ScreenCall(Screen):
                     continue
                 data[0] = int(data[0].decode('utf-8'))
                 left_border = data[0] * self.partition_size
-                self.other_image = self.other_image[: left_border] + data[1] + self.other_image[left_border + len(data[1]) :]
+                self.other_image = self.other_image[: left_border] + data[1] + self.other_image[left_border + len(data[1]):]
 
 
 class DayCall(App):
